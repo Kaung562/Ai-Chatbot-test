@@ -1,8 +1,8 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { ChatRequestDto } from '../dtos/chat.request.dto';
 import { PromptService } from '../../services/prompt.service';
-import { AiClientService } from '../../services/ai-client.service';
-import { ScyllaService } from '../../services/scylla.service';
+import { AiClientService } from '../../../../infrastructure/agent/ai-client.service';
+import { ScyllaService } from '../../../../infrastructure/scylla/scylla.service';
 
 
 @Injectable()

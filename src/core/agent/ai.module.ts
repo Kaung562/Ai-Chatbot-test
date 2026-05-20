@@ -3,18 +3,20 @@ import { AiController } from "./presentation/Ai.controller";
 import { ChatUseCase } from "./application/usecases/chat.usecase";
 import { PromptService } from "./services/prompt.service";
 import { KnowledgeService } from "./services/knowledge.service";
-import { AiClientService } from "./services/ai-client.service";
-import { ScyllaService } from "./services/scylla.service";
+import { ScyllaModule } from "src/infrastructure/scylla/scylla.module";
+import { AiClientModule } from "src/infrastructure/agent/ai-client.module";
 
 
 @Module({
+   imports: [
+    ScyllaModule,
+    AiClientModule,
+  ],
   controllers: [AiController],
   providers: [
     ChatUseCase,
     PromptService,
     KnowledgeService,
-    AiClientService,
-    ScyllaService,
   ],
 })
 export class AiModule {}
