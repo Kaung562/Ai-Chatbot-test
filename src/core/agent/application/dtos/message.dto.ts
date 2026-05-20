@@ -2,8 +2,8 @@ import { IsString } from "class-validator";
 
 export class MessageDto {
   @IsString()
-  role: string;
+  role!: string;
 
   @IsString()
-  content: string;
+  content!: string;
 }
