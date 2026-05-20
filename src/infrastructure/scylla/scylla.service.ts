@@ -1,3 +1,4 @@
+import { AppConfigService } from '@config/config.service';
 import { Injectable, Logger, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
 import { Client, types } from 'cassandra-driver';
 import { v4 as uuidv4 } from 'uuid';
@@ -6,17 +7,17 @@ import { v4 as uuidv4 } from 'uuid';
 export class ScyllaService implements OnModuleInit, OnModuleDestroy {
   private readonly logger = new Logger(ScyllaService.name);
   private client: Client | null = null;
-  private readonly contactPoints = (process.env.SCYLLA_CONTACT_POINTS || '127.0.0.1').split(',');
-  private readonly localDc = process.env.SCYLLA_LOCAL_DC || 'datacenter1';
-  private readonly keyspace = process.env.SCYLLA_KEYSPACE || 'support';
+
+  constructor(private readonly config: AppConfigService) {}
 
   async onModuleInit() {
     try {
       this.client = new Client({
-        contactPoints: this.contactPoints,
-        localDataCenter: this.localDc,
-        keyspace: this.keyspace,
+        contactPoints: this.config.scyllaContactPoints,
+        localDataCenter: this.config.scyllaLocalDc,
+        keyspace: this.config.scyllaKeyspace,
       });
+
       await this.client.connect();
       this.logger.log('Connected to Scylla/Cassandra');
     } catch (err) {
